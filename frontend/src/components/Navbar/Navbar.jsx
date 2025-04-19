@@ -1,51 +1,65 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 const Navbar = () => {
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
     const [activeSection, setActiveSection] = useState('home');
-
-    const toggleMenu = () => setIsOpen(!isOpen);
-
-    // event handler that scrolls the user to section selected
-    const handleClick = (e, sectionId) => {
-        e.preventDefault();
-
-        // get section
-        const section = document.getElementById(sectionId);
-
-        if (section) {
-            section.scrollIntoView({ behavior: 'smooth' });
-        }
-        // close hamburger menu
-        setIsOpen(false);
-    };
+    const [isMobile, setIsMobile] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
-        const sections = document.querySelectorAll('section');
+        const handleDeviceResize = () => setIsMobile(window.innerWidth <= 768);
+        handleDeviceResize();
+        window.addEventListener('resize', handleDeviceResize);
+        return () => window.removeEventListener('resize', handleDeviceResize);
+    }, []);
+
+    useEffect(() => {
         const handleScroll = () => {
+            const sections = document.querySelectorAll('section');
             let current = 'home';
+
             sections.forEach((section) => {
-                const sectionTop = section.offsetTop;
-                if (window.scrollY >= sectionTop - 80) {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight /2) {
                     current = section.getAttribute("id");
                 }
             });
 
-            setActiveSection(current);
+            requestAnimationFrame(() => setActiveSection(current));
         };
 
         window.addEventListener('scroll', handleScroll);
+        handleScroll();
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const navItemClass = (id) => {
-        activeSection === id
-            ? 'text-blue-600 font-semibold underline underline-offset-4'
-            : 'hover:text-blue-500 hover:underline hover:underline-offset-4 transition-colors duration-300';
+    const handleClick = (id, route) => {
+        setMenuOpen(false);
+        if (isMobile) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            navigate(route);
+        }
+    };
+
+
+    const navItemClass = (id, route) => {
+        const isMobile = window.innerWidth <= 768;
+        const isActive = isMobile || location.pathname ==='/'
+            ? activeSection === id
+            : location.pathname === route;
+
+        return `relative cursor-pointer transition-colors duration-300
+            ${isActive ? 'text-blue-600 font-semibold' : 'hover:text-blue-500'}
+            after:content-[""] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:transition-all after:duration-300
+            ${isActive ? 'after:bg-blue-600' : 'after:bg-transparent hover:after:bg-blue-400'}`;
+
     };
 
     return (
@@ -59,36 +73,24 @@ const Navbar = () => {
                 <h1 className="text-2xl font-bold tracking-wider text-blue-800 transition-colors duration-300">Resian.dev</h1>
                 <div className="md:hidden">
                     <button
-                        onClick={toggleMenu}
+                        onClick={() => setMenuOpen(!menuOpen)}
                         className="text-blue-800 focus:outline-none transform transition-transform duration-200 hover:scale-110"
                     >
-                        {isOpen ? <X size={28} /> : <Menu size={28} />}
+                        {menuOpen ? <FaTimes className="text-2xl" /> : <FaBars className="text-2xl" />}
                     </button>
                 </div>
                 <ul className="hidden md:flex gap-6 text-lg">
-                    <li>
-                        <a href="#home" onClick={(e) => handleClick(e, 'home')} className={navItemClass('home')}>Home</a>
-                    </li>
-                    <li>
-                        <a href="#projects" onClick={(e) => handleClick(e, 'projects')} className={navItemClass('projects')}>Projects</a>
-                    </li>
-                    <li>
-                        <a href="#contact" onClick={(e) => handleClick(e, 'contact')} className={navItemClass('contact')}>Contact</a>
-                    </li>
+                    <li className={navItemClass('home', '/')} onClick={() => handleClick('home', '/')}>Home</li>
+                    <li className={navItemClass('projects', '/projects')} onClick={() => handleClick('projects', '/projects')}>Projects</li>
+                    <li className={navItemClass('contact', '/contact')} onClick={() => handleClick('contact', '/contact')}>Contact</li>
                 </ul>
             </div>
-            {isOpen && (
+            {menuOpen && (
                 <div className="md:hidden px-6 pb-4">
                     <ul className="flex flex-col gap-4 text-lg">
-                        <li>
-                            <a href="#home" onClick={(e) => handleClick(e, 'home')} className={navItemClass('home')}>Home</a>
-                        </li>
-                        <li>
-                            <a href="#projects" onClick={(e) => handleClick(e, 'projects')} className={navItemClass('projects')}>Projects</a>
-                        </li>
-                        <li>
-                            <a href="#contact" onClick={(e) => handleClick(e, 'contact')} className={navItemClass('contact')}>Contact</a>
-                        </li>
+                        <li className="cursor-pointer" onClick={() => handleClick('home', '/')}>Home</li>
+                        <li className="cursor-pointer" onClick={() => handleClick('projects', '/projects')}>Projects</li>
+                        <li className="cursor-pointer" onClick={() => handleClick('contact', '/contact')}>Contact</li>
                     </ul>
                 </div>
             )}
