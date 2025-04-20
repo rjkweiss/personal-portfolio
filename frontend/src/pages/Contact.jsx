@@ -57,7 +57,7 @@ const Contact = () => {
 
 
     return (
-        <section id="contact" className="relative py-24 px-6 sm:px-10 md:px-20 shadow-inner">
+        <section id="contact" className="relative py-24 px-6 sm:px-10 md:px-20 md:pt-36 shadow-inner">
             {/* fancy bubbles */}
             <div className="bubble"></div>
             <div className="bubble"></div>

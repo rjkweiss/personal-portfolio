@@ -1,6 +1,7 @@
 /* TO-DO: site-wide styling */
 @import "tailwindcss";
 
+/* bubbles css */
 @keyframes drift{
   0% {
     transform: translate(0, 0) scale(1);
@@ -73,4 +74,16 @@
   left: 85%;
   top: 35%;
   animation-delay: 5s;
+}
+
+/* experiences css for react-vertical-component */
+.timeline-element--right .vertical-timeline-element-content {
+  margin-left: auto;
+  text-align: right;
+}
+
+.timeline-element--right .vertical-timeline-element-content-arrow {
+  left: auto;
+  right: 100%;
+  transform: rotate(180deg);
 }

@@ -81,6 +81,7 @@ const Navbar = () => {
                 </div>
                 <ul className="hidden md:flex gap-6 text-lg">
                     <li className={navItemClass('home', '/')} onClick={() => handleClick('home', '/')}>Home</li>
+                    <li className={navItemClass('experiences', '/experiences')} onClick={() => handleClick('experiences', '/experiences')}>Experiences</li>
                     <li className={navItemClass('projects', '/projects')} onClick={() => handleClick('projects', '/projects')}>Projects</li>
                     <li className={navItemClass('contact', '/contact')} onClick={() => handleClick('contact', '/contact')}>Contact</li>
                 </ul>
