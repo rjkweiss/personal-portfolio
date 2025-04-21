@@ -14,6 +14,7 @@ const Home = () => {
             {/* projects section */}
             <Projects />
 
+            {/* experiences section */}
             <Timeline />
 
             {/* contacts section */}

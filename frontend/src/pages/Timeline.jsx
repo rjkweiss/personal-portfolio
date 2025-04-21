@@ -69,7 +69,7 @@ const timelineData = [
 
 const Timeline = () => {
     return (
-        <section id="timeline" className="relative py-16 px-6 sm:px-8 md:pt-36">
+        <section id="experiences" className="relative py-16 px-6 sm:px-8 md:pt-36">
             <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-12 text-center">
                 Experience & Education
             </h2>

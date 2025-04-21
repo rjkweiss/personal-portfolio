@@ -90,6 +90,7 @@ const Navbar = () => {
                 <div className="md:hidden px-6 pb-4">
                     <ul className="flex flex-col gap-4 text-lg">
                         <li className="cursor-pointer" onClick={() => handleClick('home', '/')}>Home</li>
+                        <li className="cursor-pointer" onClick={() => handleClick('experiences', '/experiences')}>Experiences</li>
                         <li className="cursor-pointer" onClick={() => handleClick('projects', '/projects')}>Projects</li>
                         <li className="cursor-pointer" onClick={() => handleClick('contact', '/contact')}>Contact</li>
                     </ul>
