@@ -68,15 +68,14 @@ const timelineData = [
 ];
 
 const Timeline = () => {
-    console.log(timelineData);
     return (
-        <section id="timeline" className="relative py-24 px-6 sm:px-10 md:px-20 md:pt-36">
-            <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-10 text-center">
+        <section id="timeline" className="relative py-16 px-6 sm:px-8 md:pt-36">
+            <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-12 text-center">
                 Experience & Education
             </h2>
             <div className="relative">
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-blue-200"></div>
-                <div className="flex flex-col gap-12">
+                <div className="absolute left-1/2 transform -translate-x-1/2 h-[95%] sm:h-full w-[2px] bg-blue-300 z-0" />
+                <div className="flex flex-col">
                     {timelineData.map((exp, index) => (
                         <TimelineCard key={index} entry={exp} index={index} />
                     ))}
